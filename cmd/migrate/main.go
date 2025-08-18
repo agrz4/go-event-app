@@ -6,11 +6,15 @@ import (
 
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
-	_ "github.com/golang-migrate/migrate/v4/source/github"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
 func main() {
+	// Muat .env bila ada
+	_ = godotenv.Load()
+
 	if len(os.Args) < 2 {
 		log.Fatal("Please provide a migration direction: 'up' or 'down'")
 	}

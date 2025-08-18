@@ -33,10 +33,10 @@ func (m *AttendeeModel) GetByEventAndAttendee(eventId, userId int) (*Attendee, e
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	query := "SELECT * FROM attendees WHERE event_id = $1 AND user_id = $2"
+	query := "SELECT id, event_id, user_id FROM attendees WHERE event_id = $1 AND user_id = $2"
 
 	var attendee Attendee
-	err := m.DB.QueryRowContext(ctx, query, eventId, userId).Scan(&attendee.Id, &attendee.UserId, &attendee.EventId)
+	err := m.DB.QueryRowContext(ctx, query, eventId, userId).Scan(&attendee.Id, &attendee.EventId, &attendee.UserId)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, nil
@@ -94,7 +94,7 @@ func (m *AttendeeModel) GetEventsByAttendee(attendeeId int) ([]*Event, error) {
 
 	query := `
 	SELECT e.id, e.owner_id, e.name, e.description, e.date, e.location
-	FROM event e
+	FROM events e
 	JOIN attendees a ON e.id = a.event_id
 	WHERE a.user_id = $1
 	`

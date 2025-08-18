@@ -30,7 +30,7 @@ func (m *UserModel) Get(id int) (*User, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	query := "SELECT * FROM users WHERE id = $1"
+	query := "SELECT id, email, name, password FROM users WHERE id = $1"
 
 	var user User
 	err := m.DB.QueryRowContext(ctx, query, id).Scan(&user.Id, &user.Email, &user.Name, &user.Password)
