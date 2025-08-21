@@ -42,11 +42,11 @@ func (m *UserModel) getUser(query string, args ...interface{}) (*User, error) {
 }
 
 func (m *UserModel) Get(id int) (*User, error) {
-	query := "SELECT * FROM users WHERE id = $1"
+	query := "SELECT id, email, name, password FROM users WHERE id = $1"
 	return m.getUser(query, id)
 }
 
 func (m *UserModel) GetByEmail(email string) (*User, error) {
-	query := "SELECT * FROM users WHERE email = $1"
+	query := "SELECT id, email, name, password FROM users WHERE email = $1"
 	return m.getUser(query, email)
 }

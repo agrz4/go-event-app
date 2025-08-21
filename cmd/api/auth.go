@@ -22,9 +22,19 @@ type loginRequest struct {
 }
 
 type loginResponse struct {
-	Token string `json"token"`
+	Token string `json:"token"`
 }
 
+// Login logs in a user
+//
+//	@Summary		Logs in a user
+//	@Description	Logs in a user
+//	@Tags			auth
+//	@Accept			json
+//	@Produce		json
+//	@Param			user	body	loginRequest	true	"User"
+//	@Success		200	{object}	loginResponse
+//	@Router			/api/v1/auth/login [post]
 func (app *application) login(c *gin.Context) {
 	var auth loginRequest
 	if err := c.ShouldBindJSON(&auth); err != nil {
@@ -62,6 +72,15 @@ func (app *application) login(c *gin.Context) {
 	c.JSON(http.StatusOK, loginResponse{Token: tokenString})
 }
 
+// RegisterUser registers a new user
+// @Summary		Registers a new user
+// @Description	Registers a new user
+// @Tags			auth
+// @Accept			json
+// @Produce		json
+// @Param			user	body		registerRequest	true	"User"
+// @Success		201	{object}	database.User
+// @Router			/api/v1/auth/register [post]
 func (app *application) registerUser(c *gin.Context) {
 	var register registerRequest
 
